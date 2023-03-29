@@ -55,6 +55,7 @@ class Reservation
         );
         $this->db->bind(':newId', $newId, PDO::PARAM_INT);
         $this->db->bind(':oldId', $oldId, PDO::PARAM_INT);
+        $this->db->resultSet();
     }
 
     public function hasChildren($Id)
