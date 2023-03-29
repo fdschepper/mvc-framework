@@ -25,6 +25,16 @@ class Reservation
         return $result;
     }
 
+    public function getAllReservationsEdit()
+    {
+        $this->db->query(
+            'CALL `spViewReservationsEdit`();'
+        );
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
+
     public function ViewReservationsByDate($date)
     {
 
@@ -32,7 +42,7 @@ class Reservation
             'CALL `spViewReservationsByDate`(:date);'
         );
 
-        
+
         $this->db->bind(':date', $date['date'], PDO::PARAM_STR);
         $result = $this->db->resultSet();
         return $result;
