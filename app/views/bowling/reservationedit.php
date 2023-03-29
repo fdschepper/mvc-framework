@@ -1,27 +1,28 @@
 <?php require APPROOT . '/views/includes/head.php'; ?>
-<u>
-    <?= $data['title'] ?>
-</u>
+<h1>
+    <u>
+        <?= $data['title'] ?>
+    </u>
+</h1>
 
-<?php if ($data['error']) {
-    echo "database connection unsuccessful, please try again";
-} ?>
+<form action="<?= URLROOT; ?>/reservations/editBaan" method="post">
+    <label for="select">Baannummer:</label>
 
+    <input name="id" type="" value="<?= $data['id'] ?>" hidden>
+    <input name="children" type="" value="<?= $data['children'] ?>" hidden>
 
-<table>
-    <thead>
-        <th>Voornaam</th>
-        <th>Tussenvoegsel</th>
-        <th>Achternaam</th>
-        <th>Dautm</th>
-        <th>Volwassenen</th>
-        <th>Kinderen</th>
-        <th>Baan</th>
-        <th>Wijzigen</th>
-    </thead>
-    <tbody>
-        <?= $data['rows'] ?>
-    </tbody>
-</table>
-<a href="<?= URLROOT; ?>/homepages/index">home</a>
+    <select name="newLane">
+        <option value="1">Baan 1</option>
+        <option value="2">Baan 2</option>
+        <option value="3">Baan 3</option>
+        <option value="4">Baan 4</option>
+        <option value="5">Baan 5</option>
+        <option value="6">Baan 6</option>
+        <option value="7">Baan 7 (hekjes)</option>
+        <option value="8">Baan 8 (hekjes)</option>
+    </select>
+    <br>
+    <button type="submit">Wijzigen</button>
+</form>
+
 <?php require APPROOT . '/views/includes/footer.php'; ?>

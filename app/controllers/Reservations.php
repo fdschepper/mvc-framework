@@ -38,7 +38,7 @@ class Reservations extends Controller
 
             $data = [
                 'title' => 'Overzicht reserveringen',
-                'rows' => 'no available scores, connection failed',
+                'rows' => 'no available reservations, connection failed',
                 'error' => true
             ];
         }
@@ -80,7 +80,7 @@ class Reservations extends Controller
 
             $data = [
                 'title' => 'Overzicht reserveringen',
-                'rows' => 'no available scores, connection failed',
+                'rows' => 'no available reservations, connection failed',
                 'error' => true
             ];
         }
@@ -117,11 +117,10 @@ class Reservations extends Controller
 
             $data = [
                 'title' => 'Overzicht reserveringen',
-                'rows' => 'no available scores, connection failed',
+                'rows' => 'no available reservations, connection failed',
                 'error' => true
             ];
         }
-        var_dump($records);
         // De view wordt aangeroepen
         $this->view('bowling/OverzichtReserveringen2', $data);
     }
@@ -130,13 +129,36 @@ class Reservations extends Controller
     {
         // De gegevens uit de database worden door de model aangeleverd
 
-
+        $records = $this->reservationModel->hasChildren($id);
+        $children = $records[0]->AantalKinderen;
         // Het array $data geeft de rows mee naar de view
         $data = [
             'title' => 'Details baannummer',
+            'id' => $id,
+            'children' => $children
         ];
 
         // De view wordt aangeroepen
         $this->view('bowling/reservationedit', $data);
+    }
+
+    public function editBaan()
+    {
+        $newId = $_POST['newLane'];
+        $oldId = $_POST['id'];
+        $children = $_POST['children'];
+
+
+        //check of de gebruiker kinderen heeft en of de gekozen baaan binnen 1-6 zit
+        //zo ja word deze baan verboden om te kiezen omdat deze ongeschikt is voor kinderen
+        if ($newId > 0 && $newId <= 6 && $children > 0) {
+            header("Refresh:3; url=" . URLROOT . "/reservations/editoverview");
+            echo "Deze baan is ongeschikt voor kinderen omdat deze geen hekjes heeft";
+        } else {
+            $this->reservationModel->editReservation($oldId, $newId);
+
+            header("Refresh:1; url=" . URLROOT . "/reservations/editoverview");
+            echo "Het baannummer is gewijzigd";
+        }
     }
 }

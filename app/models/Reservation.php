@@ -47,4 +47,24 @@ class Reservation
         $result = $this->db->resultSet();
         return $result;
     }
+
+    public function editReservation($newId, $oldId)
+    {
+        $this->db->query(
+            'CALL `spEditReservationsLane`(:newId, :oldId);'
+        );
+        $this->db->bind(':newId', $newId, PDO::PARAM_INT);
+        $this->db->bind(':oldId', $oldId, PDO::PARAM_INT);
+    }
+
+    public function hasChildren($Id)
+    {
+        $this->db->query(
+            'CALL `spHasChildren`(:id);'
+        );
+
+        $this->db->bind(':id', $Id, PDO::PARAM_INT);
+        $result = $this->db->resultSet();
+        return $result;
+    }
 }
